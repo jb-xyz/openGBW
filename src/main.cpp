@@ -1,17 +1,9 @@
 #include <Arduino.h>
-#include <WiFi.h>
 #include <PubSubClient.h>
 
 
 #include "display.hpp"
 #include "scale.hpp"
-
-WiFiClient espClient;
-PubSubClient client(espClient);
-
-const char *ssid = "smartstuff24_IoT"; // Change this to your WiFi SSID
-const char *password = "iamt0tally1nsecur3"; // Change this to your WiFi password
-long lastReconnectAttempt = 0;
 
 
 void setup() {
@@ -42,13 +34,6 @@ void setup() {
   // client.setServer("192.168.1.201", 1883);
 }
 
-boolean reconnect() {
-  if (client.connect("coffee-scale")) {
-    // Once connected, publish an announcement...
-    Serial.println("Connected to MQTT");
-  }
-  return client.connected();
-}
 
 void loop() {
   // if (!client.connected()) {
