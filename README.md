@@ -58,7 +58,7 @@ I plan on releasing models for a universal standalone scale in the near future a
 
 #### Relay
 
-| Display | ESP32 | Grinder |
+| Relay | ESP32 | Grinder |
 |---|---|---|
 | + | VCC/3.3 | |
 | - | GND | |
