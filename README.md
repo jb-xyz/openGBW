@@ -80,13 +80,13 @@ I plan on releasing models for a universal standalone scale in the near future a
 
 ### BOM
 
-1x ESP32
-1x HX711 load cell amplifier
-1x 0.9" OLED Display
-1x KY-040 rotary encoder
-1x 500g load cell 60 x 15,8 x 6,7 https://www.amazon.de/gp/product/B019JO9BWK/ref=ppx_yo_dt_b_asin_title_o02_s00?ie=UTF8&psc=1
+1x ESP32  
+1x HX711 load cell amplifier  
+1x 0.9" OLED Display  
+1x KY-040 rotary encoder  
+1x 500g load cell 60 x 15,8 x 6,7 https://www.amazon.de/gp/product/B019JO9BWK/ref=ppx_yo_dt_b_asin_title_o02_s00?ie=UTF8&psc=1  
 
-various jumper cables
+various jumper cables  
 a few WAGO or similar connectors
 
 -----------
