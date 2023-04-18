@@ -59,10 +59,10 @@ I plan on releasing models for a universal standalone scale in the near future a
 #### Relay
 
 | Display | ESP32 | Grinder |
-|---|---|
-| + | VCC/3.3 |
-| - | GND |
-| S | GPIO 33 |
+|---|---|---|
+| + | VCC/3.3 | |
+| - | GND | |
+| S | GPIO 33 | |
 | Middle Screw Terminal | | push button |
 | NO Screw Terminal | | push button |
 
