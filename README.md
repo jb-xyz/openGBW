@@ -93,6 +93,14 @@ a few WAGO or similar connectors
 
 ### 3D Files
 
-You can find the 3D models on thangs.com
+You can find the 3D STL models on thangs.com
 
 Eureka XL: https://thangs.com/designer/jbear-xyz/3d-model/Eureka%20Mignon%20XL%20OpenGBW%20scale%20addon-834667?manualModelView=true
+
+### Todo:
+
+- add option to change grind start/stop behaviour. Right now it pulses for 50ms, this works if its hooked up to the push button of a Eureka grinder. Other models might need constant input while grinding
+- add mounting options and cable routing channels to base
+- more detailed instructions (with pictures!)
+- other grinders?
+- ???
