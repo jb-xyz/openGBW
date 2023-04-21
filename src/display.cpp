@@ -38,10 +38,10 @@ void RightPrintToScreen(char const *str, u8g2_uint_t y)
 }
 
 void showMenu(){
-  int prevIndex = (currentMenuItem - 1) % 4;
-  int nextIndex = (currentMenuItem + 1) % 4;
+  int prevIndex = (currentMenuItem - 1) % menuItemsCount;
+  int nextIndex = (currentMenuItem + 1) % menuItemsCount;
 
-  prevIndex = prevIndex < 0 ? prevIndex + 4 : prevIndex;
+  prevIndex = prevIndex < 0 ? prevIndex + menuItemsCount : prevIndex;
   MenuItem prev = menuItems[prevIndex];
   MenuItem current = menuItems[currentMenuItem];
   MenuItem next = menuItems[nextIndex];
@@ -67,6 +67,47 @@ void showOffsetMenu(){
   u8g2.setFont(u8g2_font_7x13_tr);
   snprintf(buf, sizeof(buf), "%3.2fg", offset);
   CenterPrintToScreen(buf, 28);
+  u8g2.sendBuffer();
+}
+
+void showScaleModeMenu()
+{
+  char buf[16];
+  u8g2.clearBuffer();
+  u8g2.setFontPosTop();
+  u8g2.setFont(u8g2_font_7x14B_tf);
+  CenterPrintToScreen("Set Scale Mode", 0);
+  u8g2.setFont(u8g2_font_7x13_tr);
+  if(scaleMode){
+    LeftPrintToScreen("GBW", 19);
+    LeftPrintActiveToScreen("Scale only", 35);
+  }
+  else{
+    LeftPrintActiveToScreen("GBW", 19);
+    LeftPrintToScreen("Scale only", 35);
+  }
+  u8g2.sendBuffer();
+}
+
+void showGrindModeMenu()
+{
+  char buf[16];
+  u8g2.clearBuffer();
+  u8g2.setFontPosTop();
+  u8g2.setFont(u8g2_font_7x14B_tf);
+  CenterPrintToScreen("Set Grinder ", 0);
+  CenterPrintToScreen("Sart/Stop Mode", 19);
+  u8g2.setFont(u8g2_font_7x13_tr);
+  if (grindMode)
+  {
+    LeftPrintActiveToScreen("Continuous", 35);
+    LeftPrintToScreen("Impulse", 51);
+  }
+  else
+  {
+    LeftPrintToScreen("Continuous", 35);
+    LeftPrintActiveToScreen("Impulse", 51);
+  }
   u8g2.sendBuffer();
 }
 
@@ -98,15 +139,23 @@ void showCalibrationMenu(){
 }
 
 void showSetting(){
-  if(currentSetting == 0){
+  if(currentSetting == 2){
     showOffsetMenu();
   }
-  else if(currentSetting == 1){
+  else if(currentSetting == 0){
     showCupMenu();
   }
-  else if (currentSetting == 2)
+  else if (currentSetting == 1)
   {
     showCalibrationMenu();
+  }
+  else if (currentSetting == 3)
+  {
+    showScaleModeMenu();
+  }
+  else if (currentSetting == 4)
+  {
+    showGrindModeMenu();
   }
 }
 
@@ -124,7 +173,7 @@ void updateDisplay( void * parameter) {
 
     if (scaleLastUpdatedAt == 0) {
       u8g2.setFontPosTop();
-      u8g2.drawStr(0, 20, "Init...");
+      u8g2.drawStr(0, 20, "Initializing...");
     } else if (!scaleReady) {
       u8g2.setFontPosTop();
       u8g2.drawStr(0, 20, "SCALE ERROR");
@@ -137,7 +186,7 @@ void updateDisplay( void * parameter) {
 
         u8g2.setFontPosCenter();
         u8g2.setFont(u8g2_font_7x14B_tf);
-        u8g2.setCursor(0, 32);
+        u8g2.setCursor(3, 32);
         snprintf(buf, sizeof(buf), "%3.1fg", scaleWeight - cupWeightEmpty);
         u8g2.print(buf);
 
@@ -153,7 +202,7 @@ void updateDisplay( void * parameter) {
 
         u8g2.setFontPosBottom();
         u8g2.setFont(u8g2_font_7x13_tr);
-        snprintf(buf, sizeof(buf), "%3.1fs", (double)(millis() - startedGrindingAt) / 1000);
+        snprintf(buf, sizeof(buf), "%3.1fs", startedGrindingAt > 0 ? (double)(millis() - startedGrindingAt) / 1000 : 0);
         CenterPrintToScreen(buf, 64);
       } else if (scaleStatus == STATUS_EMPTY) {
         u8g2.setFontPosTop();
@@ -169,16 +218,10 @@ void updateDisplay( void * parameter) {
         u8g2.setFont(u8g2_font_7x13_tf);
         u8g2.setFontPosCenter();
         u8g2.setCursor(5, 50);
-        //double setWeight = preferences2.getDouble("setWeight", (double)COFFEE_DOSE_WEIGHT);
         snprintf(buf2, sizeof(buf2), "Set: %3.1fg", setWeight);
         LeftPrintToScreen(buf2, 50);
 
-        //u8g2.setFont(u8g2_font_7x13_tf);
-        //u8g2.setFontPosCenter();
-        //u8g2.setCursor(80, 50);
-        //double offset = preferences2.getDouble("offset", (double)COFFEE_DOSE_WEIGHT);
-        //snprintf(buf2, sizeof(buf2), "O: %3.1fg", offset);
-        //RightPrintToScreen(buf2, 50);
+        
       } else if (scaleStatus == STATUS_GRINDING_FAILED) {
 
         u8g2.setFontPosTop();
@@ -198,7 +241,7 @@ void updateDisplay( void * parameter) {
 
         u8g2.setFontPosCenter();
         u8g2.setFont(u8g2_font_7x14B_tf);
-        u8g2.setCursor(0, 32);
+        u8g2.setCursor(3, 32);
         snprintf(buf, sizeof(buf), "%3.1fg", scaleWeight - cupWeightEmpty);
         u8g2.print(buf);
 
