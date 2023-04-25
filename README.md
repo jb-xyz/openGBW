@@ -9,16 +9,16 @@ This mod will add GBW functionality to basically any coffe grinder that can be s
 
 The included 3D Models are adapted to the Eureka Mignon XL, but the electronics can be used for any Scale.
 
-I plan on releasing models for a universal standalone scale in the near future as well. 
-
 -----------
 
 ### Differences to the original
 
 - added a rotary encoder to select weight and navigate menus
-- made the important values adjustable
+- made everything user configurable without having to compile your custom firmware
 - dynamically adjust the weight offset after each grind
 - added relay for greater compatibility
+- added different ways to activate the grinder
+- added scale only mode
 
 -----------
 
@@ -27,8 +27,12 @@ I plan on releasing models for a universal standalone scale in the near future a
 1) 3D print the included models for a Eureka Mignon XL or design your own
 2) flash the firmware onto an ESP32
 3) connect the display, relay, load cell and rotary encoder to the ESP32 according to the wiring instructions
-4) go into the menu by pressing the button of the rotary encoder and set your values. -2g is a good enough starting value for the grinding offset for a Mignon XL
-5) exit the menu, set your desired weight and place your empty dosing cup on the scale. The first grind might be off by a bit - the accuracy will increase with each grind as the scale aut adjusts the grinding offset
+4) go into the menu by pressing the button of the rotary encoder and set your initial offset. -2g is a good enough starting value for a Mignon XL
+5) if you're using the Mignon's push button to activate the grinder set grinding mode to impulse. If you're connected directly to the motor relay use continuous.
+6) if you only want to use the scale to check your weight when single dosing, set scale mode to scale only. This will not trigger any relay switching and start a timer when the weight begins to increase. If you'd like to build your own brew scale with timer, this is also the mode to use.
+7) calibrate your load cell by placing a 100g weight on it and following the instructions in the menu
+8) set your dosing cup weight
+5) exit the menu, set your desired weight and place your empty dosing cup on the scale. The first grind might be off by a bit - the accuracy will increase with each grind as the scale auto adjusts the grinding offset
 
 -----------
 
@@ -97,9 +101,13 @@ You can find the 3D STL models on thangs.com
 
 Eureka XL: https://thangs.com/designer/jbear-xyz/3d-model/Eureka%20Mignon%20XL%20OpenGBW%20scale%20addon-834667?manualModelView=true
 
+These _should_ fit any grinder in the Mignon line up as far as I can tell.
+
+There's also STLs for a universal scale in the repo, though it is mostly meant as a starting off point to create your own. You can use the provided files, but you'll need to print an external enclosure for the ESP32, relay and any other components your setup might need.
+
 ### Todo:
 
-- add option to change grind start/stop behaviour. Right now it pulses for 50ms, this works if its hooked up to the push button of a Eureka grinder. Other models might need constant input while grinding
+- ~add option to change grind start/stop behaviour. Right now it pulses for 50ms, this works if its hooked up to the push button of a Eureka grinder. Other models might need constant input while grinding~ done
 - add mounting options and cable routing channels to base
 - more detailed instructions (with pictures!)
 - other grinders?
