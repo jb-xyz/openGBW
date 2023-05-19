@@ -58,6 +58,7 @@ extern double setWeight;
 extern double offset;
 extern bool scaleMode;
 extern bool grindMode;
+extern bool greset;
 extern int menuItemsCount;
 
 extern MenuItem menuItems[];

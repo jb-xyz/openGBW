@@ -70,6 +70,8 @@ void showOffsetMenu(){
   u8g2.sendBuffer();
 }
 
+
+
 void showScaleModeMenu()
 {
   char buf[16];
@@ -138,6 +140,27 @@ void showCalibrationMenu(){
   u8g2.sendBuffer();
 }
 
+void showResetMenu()
+{
+  char buf[16];
+  u8g2.clearBuffer();
+  u8g2.setFontPosTop();
+  u8g2.setFont(u8g2_font_7x14B_tf);
+  CenterPrintToScreen("Reset to defaults?", 0);
+  u8g2.setFont(u8g2_font_7x13_tr);
+  if (greset)
+  {
+    LeftPrintActiveToScreen("Confirm", 19);
+    LeftPrintToScreen("Cancel", 35);
+  }
+  else
+  {
+    LeftPrintToScreen("Confirm", 19);
+    LeftPrintActiveToScreen("Cancel", 35);
+  }
+  u8g2.sendBuffer();
+}
+
 void showSetting(){
   if(currentSetting == 2){
     showOffsetMenu();
@@ -157,6 +180,10 @@ void showSetting(){
   {
     showGrindModeMenu();
   }
+  else if (currentSetting == 6)
+  {
+    showResetMenu();
+  }
 }
 
 void updateDisplay( void * parameter) {
@@ -166,7 +193,7 @@ void updateDisplay( void * parameter) {
   for(;;) {
     u8g2.clearBuffer();
     if (millis() - lastSignificantWeightChangeAt > SLEEP_AFTER_MS) {
-      //u8g2.sendBuffer();
+      u8g2.sendBuffer();
       delay(100);
       continue;
     }
@@ -212,7 +239,7 @@ void updateDisplay( void * parameter) {
         u8g2.setFont(u8g2_font_7x14B_tf);
         u8g2.setFontPosCenter();
         u8g2.setCursor(0, 28);
-        snprintf(buf, sizeof(buf), "%3.1fg", scaleWeight);
+        snprintf(buf, sizeof(buf), "%3.1fg", abs(scaleWeight));
         CenterPrintToScreen(buf, 32);
 
         u8g2.setFont(u8g2_font_7x13_tf);
